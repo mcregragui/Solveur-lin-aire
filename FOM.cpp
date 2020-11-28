@@ -68,6 +68,6 @@ VectorXd FOM::Solve()const
 		j++;
 	}
 	cout<<"le nombre d'itération : "<<nb_iterat_<<endl;
-    cout<<"----------------Gradient à pas optimal------------------------"<<endl;
+    cout<<"----------------FOM------------------------"<<endl;
 	return x;
 }
