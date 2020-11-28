@@ -16,7 +16,7 @@ int main()
 { 
 
 	//initiation de test par matrice sdp
-	int n=12;
+	int n=6;
 	MatrixXd A (n,n);                                              
 	VectorXd b(n);
 	
@@ -46,14 +46,21 @@ int main()
 	SDP sdp(A) ;
     bool T=sdp.check () ;
 
+
+
+
 	//Test Arnoldi et Fom
 	FOM v(A,b);
-	MatrixXd V(n,n),H(n,n);
+	MatrixXd H(n+1,n),V(n,n+1);
 	v.Arnoldi(b,V,H);
 	cout<<"----------------la matrice V---------------------"<<endl;
 	cout<<V<<endl;
 	cout<<"----------------la matrice H---------------------"<<endl;
 	cout<<H<<endl;
+	v.Solve();
+
+
+
 
 	//test des méthodes gconj,gop,rm
 	if (T)
