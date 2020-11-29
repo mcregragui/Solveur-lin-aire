@@ -57,7 +57,8 @@ int main()
 	cout<<V<<endl;
 	cout<<"----------------la matrice H---------------------"<<endl;
 	cout<<H<<endl;
-	v.Solve();
+	cout<<"----------------solution---------------------"<<endl;
+	cout<<v.Solve()<<endl;;
 
 
 
