@@ -29,9 +29,9 @@ void FOM::Arnoldi(VectorXd u, MatrixXd& VV, MatrixXd& HH)
     for (int j=0; j<m; j++)
     {
         
-        for (int i=0; i<j; i++)
+        for (int i=0; i<=j; i++)
         {
-            H(i,j)=(A_*V.col(j)).dot(V.col(j));;
+            H(i,j)=(A_*V.col(j)).dot(V.col(i));;
         }
 		VectorXd sum(m);
 
@@ -58,12 +58,11 @@ void FOM::Arnoldi(VectorXd u, MatrixXd& VV, MatrixXd& HH)
 
 }
 
-//gradient à pas optimal
+//FOM
 VectorXd FOM::Solve()								
 {
 	
-	MatrixXd A=A_;
-	const int n = A.rows();
+	const int n = A_.rows();
 	VectorXd x(n);											
 	for (int i = 0; i < n; i++)
 	{
@@ -71,58 +70,69 @@ VectorXd FOM::Solve()
 		
 	}
 
-	VectorXd r(n),b(b_);
+	VectorXd r(n);
 	//cout<<b<<endl;
-	r = b -A*x;
+	r = b_ -A_*x;
 	VectorXd v1(n);
 	v1=r/r.norm();
 	VectorXd rSuivant(n);
 	VectorXd xSuivant(n);
 	rSuivant=r;
 	xSuivant=x;
-	int j = 0;
 	double beta=r.norm();
 	int nb_iterat_=0;
-	while (beta > pow(10,-10) && (nb_iterat_<1000))
+	while (beta > pow(10,-10))
 	{
+
 		//Arnoldi
 		MatrixXd HH(n+1,n),VV(n,n+1);
-		this -> Arnoldi(v1,HH,VV);
+		this -> Arnoldi(rSuivant,VV,HH);
 		MatrixXd H(n,n),V(n,n);
 		
 		H = HH.block(0,0,n,n);
 		V= VV.block(0,0,n,n);
+		//cout<<"----------------La matrice H------------------------"<<endl;
+		//cout<<H<<endl;
+		//cout<<"----------------La matrice V------------------------"<<endl;
+		//cout<<V<<endl;
 		
 		//résolution QR
-		
 		HouseholderQR<MatrixXd> qr(n,n);
 		qr.compute(H);
-		MatrixXd Q = qr.householderQ();
-		cout<<"----------------La matrice Q------------------------"<<endl;
-		cout<<Q<<endl;
+		//MatrixXd Q = qr.householderQ();
+
+		//cout<<"----------------La matrice Q------------------------"<<endl;
+		//cout<<Q<<endl;
 		//itération
-		VectorXd e= V.transpose()*v1;
+		VectorXd e(n);
+		e= V.transpose()*v1;
 		VectorXd y(n);
 		y = H.householderQr().solve(beta*e);
-		cout<<"----------------La solution de Q------------------------"<<endl;
-		cout<<y<<endl;
+		//cout<<"----------------La solution de Q------------------------"<<endl;
+		//cout<<y<<endl;
 		
-		xSuivant = xSuivant- V*y;
+		xSuivant = xSuivant+ V*y;
 		rSuivant = b_ -A_*xSuivant;
+		//rSuivant=(y.dot(e))*VV.col(n);//*VV.col(n+1);
+		
 
 		x=xSuivant ;
 		r=rSuivant;
 
 
-		
+		v1=rSuivant/(rSuivant.norm());
 
 
 		
-		beta=r.norm();
+		beta=rSuivant.norm();
+		if (beta > pow(10,-9))
+		{
+			break;
+		}
 		nb_iterat_=nb_iterat_ +1;
-		j++;
 	}
-	cout<<"le nombre d'itération : "<<nb_iterat_<<endl;
+
     cout<<"----------------FOM------------------------"<<endl;
+	cout<<"le nombre d'itération : "<<nb_iterat_<<endl;
 	return x;
 }

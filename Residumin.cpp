@@ -53,7 +53,8 @@ VectorXd Residumin::Solve()const
 		nb_iterat_=nb_iterat_ +1;
 		j++;
 	}
-	cout<<"le nombre d'itération : "<<nb_iterat_<<endl;
+
     cout<<"----------------Résidu minimum------------------------"<<endl;
+	cout<<"le nombre d'itération : "<<nb_iterat_<<endl;
 	return x;
 }

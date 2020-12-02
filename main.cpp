@@ -16,7 +16,7 @@ int main()
 { 
 
 	//initiation de test par matrice sdp
-	int n=6;
+	int n=150;
 	MatrixXd A (n,n);                                              
 	VectorXd b(n);
 	
@@ -51,14 +51,24 @@ int main()
 
 	//Test Arnoldi et Fom
 	FOM v(A,b);
+	/*
 	MatrixXd H(n+1,n),V(n,n+1);
 	v.Arnoldi(b,V,H);
 	cout<<"----------------la matrice V---------------------"<<endl;
 	cout<<V<<endl;
 	cout<<"----------------la matrice H---------------------"<<endl;
 	cout<<H<<endl;
-	cout<<"----------------solution---------------------"<<endl;
-	cout<<v.Solve()<<endl;;
+	cout<<"----------------test QR---------------------"<<endl;
+	HouseholderQR<MatrixXd> qr(n,n);
+	qr.compute(A);
+	MatrixXd Q = qr.householderQ();
+	VectorXd y(n);
+	y = A.householderQr().solve(b);
+	cout<<y<<endl;
+	*/
+	VectorXd w=v.Solve();
+	cout<<"----------------solution FOM---------------------"<<endl;
+	cout<<w<<endl;;
 
 
 
