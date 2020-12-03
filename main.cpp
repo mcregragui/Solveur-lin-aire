@@ -16,7 +16,7 @@ int main()
 { 
 
 	//initiation de test par matrice sdp
-	int n=150;
+	int n=50;
 	MatrixXd A (n,n);                                              
 	VectorXd b(n);
 	

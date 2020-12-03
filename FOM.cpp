@@ -61,6 +61,8 @@ void FOM::Arnoldi(VectorXd u, MatrixXd& VV, MatrixXd& HH)
 //FOM
 VectorXd FOM::Solve()								
 {
+
+	
 	
 	const int n = A_.rows();
 	VectorXd x(n);											
@@ -81,8 +83,10 @@ VectorXd FOM::Solve()
 	xSuivant=x;
 	double beta=r.norm();
 	int nb_iterat_=0;
-	while (beta > pow(10,-10))
+	while (beta > pow(10,-18))
 	{
+
+		nb_iterat_=nb_iterat_ +1;
 
 		//Arnoldi
 		MatrixXd HH(n+1,n),VV(n,n+1);
@@ -129,7 +133,7 @@ VectorXd FOM::Solve()
 		{
 			break;
 		}
-		nb_iterat_=nb_iterat_ +1;
+		
 	}
 
     cout<<"----------------FOM------------------------"<<endl;
