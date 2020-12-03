@@ -71,7 +71,7 @@ void GMRes::QR(MatrixXd& Q, MatrixXd& R)
 
 }
 
-//extraction de R
+//extraction de R //fonctionne
 MatrixXd GMRes::ExtractR(MatrixXd C)
 {
     int n=C.rows();
@@ -142,11 +142,20 @@ VectorXd GMRes::Solve()
 		HouseholderQR<MatrixXd> qr(n,n);
 		qr.compute(H);
         MatrixXd Q(n,n),R(n,n);
+        MatrixXd res(n,n);
+        Q = qr.householderQ();
+        res=MatrixXd::Zero(n,n);
+        res=qr.matrixQR();
+        R= this ->ExtractR(res);
+
+        //jusqu'à ici extraction et QR fonctionne
 
 		//MatrixXd Q = qr.householderQ();
 
 		//cout<<"----------------La matrice Q------------------------"<<endl;
 		//cout<<Q<<endl;
+
+
 		//itération
 		VectorXd e(n);
 		e= V.transpose()*v1;

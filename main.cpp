@@ -17,7 +17,7 @@ int main()
 { 
 
 	//initiation de test par matrice sdp
-	int n=7;
+	int n=4;
 	MatrixXd A (n,n);                                              
 	VectorXd b(n);
 	
@@ -58,8 +58,9 @@ int main()
 	HouseholderQR<MatrixXd> qr(n,n);
 	qr.compute(A);
 	MatrixXd res(n,n);
-	res=qr.matrixQR();
 	Q = qr.householderQ();
+	res=MatrixXd::Zero(n,n);
+	res=qr.matrixQR();
 	R= g.ExtractR(res);
 	cout<<"----------------Q----------------------------------------"<<endl;
 	cout<<Q<<endl;
@@ -96,7 +97,7 @@ int main()
 	*/
 	VectorXd w=v.Solve();
 	cout<<"----------------solution FOM---------------------"<<endl;
-	cout<<w<<endl;;
+	cout<<w<<endl;
 
 
 
