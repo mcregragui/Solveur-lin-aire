@@ -31,7 +31,7 @@ void GMRes::Arnoldi(VectorXd u, MatrixXd& VV, MatrixXd& HH)
         
         for (int i=0; i<=j; i++)
         {
-            H(i,j)=(A_*V.col(j)).dot(V.col(i));;
+            H(i,j)=(A_*V.col(j)).dot(V.col(i));//je doute cette expression
         }
 		VectorXd sum(m);
 
@@ -40,7 +40,7 @@ void GMRes::Arnoldi(VectorXd u, MatrixXd& VV, MatrixXd& HH)
 			sum[i]=0.;
 		}
 
-		for (int i=0; i<m; i++)
+		for (int i=0; i<j; i++)//i<m
 		{
 			sum=sum+H(i,j)*V.col(i);
 		}
@@ -60,12 +60,48 @@ void GMRes::Arnoldi(VectorXd u, MatrixXd& VV, MatrixXd& HH)
 
 
 //décomp QR
+//On utilise la décomposition QR à l'aide de méthode de Given, on trouve d'abord y tel que ||beta*e1-Hm*y||
+//soit minimale, Hm=QR tel que Q est Q^(t)*Q=I et R triang sup.
 void GMRes::QR(MatrixXd& Q, MatrixXd& R)
 {
     int m=A_.rows();
+	MatrixXd G(m,m);
+	Q=identity(m,m);
+	R=A_;
     for (int k=0; k<m; k++)
     {
-        //à continuer
+		double c,s;
+        for(j=m-1;j>k;k--)
+		{
+			/*for(i=0;i<m;i++)
+			{
+				G(i,i)=1;
+			}*/
+			G=identity(m,m);
+			if (R(k,j)==0){
+				c=1;
+				s=0;
+			}
+			else
+			{
+				if (abs(R(k,j))>abs(R(k-1,j)))
+				{
+					s=1./(1+pow(R(k,j)/R(k-1,j),2));
+					c=s*R(k,j)/R(k-1,j);
+				}
+				else 
+				{
+					c=1./(1+pow(R(k,j)/R(k-1,j),2));
+					s=c*R(k,j)/R(k-1,j);
+				}
+			}
+			G(j-1,j-1)=c;
+			G(j-1,j)=s;
+			G(j,j-1)=-s;
+			G(j,j)=c;
+			R=G.transpos()*R;
+			Q=Q*G;
+		}
     }
 
 
