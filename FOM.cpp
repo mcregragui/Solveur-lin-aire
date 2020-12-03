@@ -83,7 +83,7 @@ VectorXd FOM::Solve()
 	xSuivant=x;
 	double beta=r.norm();
 	int nb_iterat_=0;
-	while (beta > pow(10,-18))
+	while (beta > pow(10,-10))
 	{
 
 		nb_iterat_=nb_iterat_ +1;

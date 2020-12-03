@@ -13,7 +13,7 @@ CXX_FLAGS = $(DEBUG_FLAG)
 PROG = run
 
 # Les fichiers source à compiler
-SRC = main.cpp GradConj.cpp Gradpo.cpp Residumin.cpp FOM.cpp SDP.cpp
+SRC = main.cpp GradConj.cpp Gradpo.cpp Residumin.cpp FOM.cpp GMRes.cpp SDP.cpp
 
 # La commande complète : compile seulement si un fichier a été modifié
 $(PROG) : $(SRC)

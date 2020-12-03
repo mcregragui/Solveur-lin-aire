@@ -2,3 +2,4 @@
 Gradient conjugué
 Gradient à pas optimal
 Résidu minimum
+FOM
