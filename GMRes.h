@@ -17,6 +17,6 @@ public:
     void Arnoldi(Eigen::VectorXd,Eigen::MatrixXd&,Eigen::MatrixXd&); //A devient Hm
     void QR(Eigen::MatrixXd&,Eigen::MatrixXd&);
     Eigen::MatrixXd ExtractR(Eigen::MatrixXd);
-	Eigen::VectorXd Solve();
+	Eigen::VectorXd Solve1();
 };
 #endif

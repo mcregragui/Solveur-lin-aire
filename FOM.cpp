@@ -15,7 +15,7 @@ FOM::FOM(MatrixXd A,VectorXd b) :  A_(A),b_(b)
 {	
 }
 //Méthode de arnoldi
-void FOM::Arnoldi(VectorXd u, MatrixXd& VV, MatrixXd& HH)
+void FOM::Arnoldi1(VectorXd u, MatrixXd& VV, MatrixXd& HH)
 {
 	//cout<<"started"<<endl;
     int m=u.size();
@@ -90,7 +90,7 @@ VectorXd FOM::Solve()
 
 		//Arnoldi
 		MatrixXd HH(n+1,n),VV(n,n+1);
-		this -> Arnoldi(rSuivant,VV,HH);
+		this -> Arnoldi1(rSuivant,VV,HH);
 		MatrixXd H(n,n),V(n,n);
 		
 		H = HH.block(0,0,n,n);

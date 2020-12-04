@@ -17,7 +17,7 @@ int main()
 { 
 
 	//initiation de test par matrice sdp
-	int n=4;
+	int n=200;
 	MatrixXd A (n,n);                                              
 	VectorXd b(n);
 	
@@ -52,8 +52,8 @@ int main()
 	cout<<"________________________TESTING________________________________"<<endl;
 
 	//GMRes et QR
-	GMRes g(A,b);
 	
+	/*
 	MatrixXd Q(n,n),R(n,n);
 	HouseholderQR<MatrixXd> qr(n,n);
 	qr.compute(A);
@@ -70,17 +70,22 @@ int main()
 	cout<<res<<endl;
 	cout<<"----------------produit----------------------------------------"<<endl;
 	cout<<Q*R<<endl;
+	*/
 
-	//VectorXd z=g.Solve();
-	//cout<<"----------------solution GMRes---------------------"<<endl;
-	//cout<<z<<endl;;
+
+	GMRes g(A,b);
+	VectorXd popo=g.Solve1();
+	cout<<"----------------solution GMRes---------------------"<<endl;
+	cout<<popo<<endl;
+
 
 
 
 
 	//Test Arnoldi et Fom, Arnoldi marche, QR marche
-	FOM v(A,b);
 	/*
+	FOM v(A,b);
+	
 	MatrixXd H(n+1,n),V(n,n+1);
 	v.Arnoldi(b,V,H);
 	cout<<"----------------la matrice V---------------------"<<endl;
@@ -95,11 +100,14 @@ int main()
 	y = A.householderQr().solve(b);
 	cout<<y<<endl;
 	*/
+/*
 	VectorXd w=v.Solve();
 	cout<<"----------------solution FOM---------------------"<<endl;
 	cout<<w<<endl;
+	cout<<A<<endl;
+	cout<<b<<endl;
 
-
+*/
 
 
 	//test des méthodes gconj,gop,rm

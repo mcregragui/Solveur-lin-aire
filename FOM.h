@@ -14,7 +14,7 @@ private:
 
 public:
 	FOM(Eigen::MatrixXd ,Eigen::VectorXd) ;//: A_(A), b_(b) { };
-    void Arnoldi(Eigen::VectorXd,Eigen::MatrixXd&,Eigen::MatrixXd&); //A devient Hm
+    void Arnoldi1(Eigen::VectorXd,Eigen::MatrixXd&,Eigen::MatrixXd&); //A devient Hm
 	Eigen::VectorXd Solve();
 };
 #endif

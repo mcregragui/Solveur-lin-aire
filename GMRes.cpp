@@ -97,7 +97,7 @@ MatrixXd GMRes::ExtractR(MatrixXd C)
 
 
 //GMRes
-VectorXd GMRes::Solve()								
+VectorXd GMRes::Solve1()								
 {
 
 	
@@ -139,13 +139,13 @@ VectorXd GMRes::Solve()
 		//cout<<V<<endl;
 		
 		//décomp QR
-		HouseholderQR<MatrixXd> qr(n,n);
-		qr.compute(H);
+		HouseholderQR<MatrixXd> qr1(n,n);
+		qr1.compute(H);
         MatrixXd Q(n,n),R(n,n);
         MatrixXd res(n,n);
-        Q = qr.householderQ();
+        Q = qr1.householderQ();
         res=MatrixXd::Zero(n,n);
-        res=qr.matrixQR();
+        res=qr1.matrixQR();
         R= this ->ExtractR(res);
 
         //jusqu'à ici extraction et QR fonctionne
@@ -154,15 +154,17 @@ VectorXd GMRes::Solve()
 
 		//cout<<"----------------La matrice Q------------------------"<<endl;
 		//cout<<Q<<endl;
+		//solution moindre carré
 
 
 		//itération
 		VectorXd e(n);
 		e= V.transpose()*v1;
 		VectorXd y(n);
-		y = H.householderQr().solve(beta*e);
+		MatrixXd QT=Q.transpose();
+		y = R.householderQr().solve(beta*QT*e);
 		//cout<<"----------------La solution de Q------------------------"<<endl;
-		cout<<y<<endl;
+		//cout<<y<<endl;
 		
 		xSuivant = xSuivant+ V*y;
 		rSuivant = b_ -A_*xSuivant;
@@ -185,7 +187,7 @@ VectorXd GMRes::Solve()
 		
 	}
 
-    cout<<"----------------FOM------------------------"<<endl;
+    cout<<"----------------GMRES------------------------"<<endl;
 	cout<<"le nombre d'itération : "<<nb_iterat_<<endl;
 	return x;
 }
